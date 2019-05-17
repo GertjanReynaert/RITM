@@ -4,8 +4,34 @@
   "description": "React Interactive Translations Manager",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src --out-dir dist",
+    "start": "node dist/index.js"
   },
   "author": "Gertjan Reynaert",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "neo-blessed": "^0.2.0",
+    "react": "^16.8.6",
+    "react-blessed": "^0.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "6.10"
+          }
+        }
+      ]
+    ]
+  }
 }
