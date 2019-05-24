@@ -42,7 +42,7 @@
   },
   "pre-commit": "format:staged",
   "lint-staged": {
-    "*.js": [
+    "*.{js,md}": [
       "prettier --write --config .prettierrc",
       "git add"
     ]
