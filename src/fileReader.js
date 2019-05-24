@@ -29,5 +29,5 @@ const config = {
 
 const examplesPath = filePath(config.translationLanguagesDirectory);
 
-console.log(safeReadJson(examplesPath(['json', 'en.json'])));
-console.log(safeReadYaml(examplesPath(['yaml', 'en.yaml'])));
+console.log(safeReadJson(examplesPath(['json','en.json'])));
+console.log(safeReadYaml(examplesPath(['yaml','en.yaml'])));
