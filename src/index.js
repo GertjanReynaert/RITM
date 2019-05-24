@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import blessed from 'neo-blessed';
-import {createBlessedRenderer} from 'react-blessed';
+import { createBlessedRenderer } from 'react-blessed';
 
 const render = createBlessedRenderer(blessed);
 
@@ -20,7 +20,7 @@ const stylesheet = {
 // Rendering a simple centered box
 class App extends Component {
   componentDidMount() {
-    this.refs.textbox.focus()
+    this.refs.textbox.focus();
   }
 
   render() {
@@ -42,27 +42,31 @@ class App extends Component {
           class={stylesheet.bordered}
           label="Summary"
         >
-          <listtable align="left" pad={2} rows={[
-            ['Language', 'Status'],
-            [],
-            ["nl.json"],
-            ["  - Unneeded keys", "✅"],
-            ["  - Missing keys", "✅"],
-            ["  - Untranslated keys", "✅"],
-            ["  - Altered keys", "✅"],
-            [" "],
-            ["fr.json"],
-            ["  - Unneeded keys", "✅"],
-            ["  - Missing keys", "✅"],
-            ["  - Untranslated keys","🚫" ],
-            ["  - Altered keys", "✅"],
-            [" "],
-            ["ja.json (optional)"],
-            ["  - Unneeded keys", "✅"],
-            ["  - Missing keys", "✅"],
-            ["  - Untranslated keys", "⚠️"],
-            ["  - Altered keys", "⏳"],
-          ]}/>
+          <listtable
+            align="left"
+            pad={2}
+            rows={[
+              ['Language', 'Status'],
+              [],
+              ['nl.json'],
+              ['  - Unneeded keys', '✅'],
+              ['  - Missing keys', '✅'],
+              ['  - Untranslated keys', '✅'],
+              ['  - Altered keys', '✅'],
+              [' '],
+              ['fr.json'],
+              ['  - Unneeded keys', '✅'],
+              ['  - Missing keys', '✅'],
+              ['  - Untranslated keys', '🚫'],
+              ['  - Altered keys', '✅'],
+              [' '],
+              ['ja.json (optional)'],
+              ['  - Unneeded keys', '✅'],
+              ['  - Missing keys', '✅'],
+              ['  - Untranslated keys', '⚠️'],
+              ['  - Altered keys', '⏳']
+            ]}
+          />
         </box>
 
         <box
@@ -72,39 +76,23 @@ class App extends Component {
           height="100%"
           class={stylesheet.bordered}
         >
-      <layout
-          width="90%"
-          height="90%"
-      >
-        <box width="100%" height={1} >
-          <text>No translation found for:</text>
-        </box>
-        <box width="100%" height={1} >
-          <text align="center">conversations.planning.addQuestion</text>
-        </box>
-        <box
-          width="100%"
-          height="100%-3"
-          class={stylesheet.bordered}
-        >
-          <textbox  ref="textbox" inputOnFocus/>
-        </box>
-        <box
-          width="50%"
-          height={1}
-          top="100%-1"
-        >
-          <button style={{bg:'blue'}}>Mark as identical</button>
-        </box>
-        <box
-          width="50%"
-          height={1}
-          left="50%"
-          top="100%-1"
-        >
-          <button style={{bg:'red'}}>Save</button>
-        </box>
-      </layout>
+          <layout width="90%" height="90%">
+            <box width="100%" height={1}>
+              <text>No translation found for:</text>
+            </box>
+            <box width="100%" height={1}>
+              <text align="center">conversations.planning.addQuestion</text>
+            </box>
+            <box width="100%" height="100%-3" class={stylesheet.bordered}>
+              <textbox ref="textbox" inputOnFocus />
+            </box>
+            <box width="50%" height={1} top="100%-1">
+              <button style={{ bg: 'blue' }}>Mark as identical</button>
+            </box>
+            <box width="50%" height={1} left="50%" top="100%-1">
+              <button style={{ bg: 'red' }}>Save</button>
+            </box>
+          </layout>
         </box>
       </element>
     );
@@ -115,7 +103,7 @@ class App extends Component {
 const screen = blessed.screen({
   autoPadding: true,
   smartCSR: true,
-  title: 'RITM 2',
+  title: 'RITM 2'
 });
 
 // Adding a way to quit the program
