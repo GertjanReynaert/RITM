@@ -4,10 +4,13 @@
   "description": "React Interactive Translations Manager",
   "main": "index.js",
   "scripts": {
-    "format": "prettier --write --config .prettierrc '*.js' 'src/**/*.js'",
+    "format": "prettier --write --config .prettierrc '*.js' 'src/**/*.js' '*.ts' 'src/**/*.ts'",
     "format:staged": "lint-staged",
-    "build": "babel src --out-dir dist",
-    "start": "node dist/index.js"
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "yarn type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\""
   },
   "author": "Gertjan Reynaert",
   "license": "MIT",
@@ -21,14 +24,20 @@
   },
   "devDependencies": {
     "@babel/cli": "7.4.4",
-    "@babel/core": "7.4.4",
-    "@babel/preset-env": "7.4.4",
+    "@babel/core": "7.4.5",
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.4.4",
+    "@babel/preset-env": "7.4.5",
+    "@babel/preset-typescript": "7.3.3",
+    "@types/node": "12.0.2",
     "lint-staged": "8.1.7",
     "pre-commit": "1.2.2",
-    "prettier": "1.17.1"
+    "prettier": "1.17.1",
+    "typescript": "3.4.5"
   },
   "babel": {
     "presets": [
+      "@babel/typescript",
       "@babel/preset-react",
       [
         "@babel/preset-env",
@@ -38,11 +47,15 @@
           }
         }
       ]
+    ],
+    "plugins": [
+      "@babel/proposal-class-properties",
+      "@babel/proposal-object-rest-spread"
     ]
   },
   "pre-commit": "format:staged",
   "lint-staged": {
-    "*.{js,md}": [
+    "*.{ts,tsx,js,md}": [
       "prettier --write --config .prettierrc",
       "git add"
     ]
