@@ -19,6 +19,10 @@ const stylesheet = {
 
 // Rendering a simple centered box
 class App extends Component {
+  componentDidMount() {
+    this.refs.textbox.focus()
+  }
+
   render() {
     return (
       <element>
@@ -71,11 +75,35 @@ class App extends Component {
       <layout
           width="90%"
           height="90%"
-          layout="grid"
       >
-          <text>Hello World!</text>
-          <button>Mark as identical</button>
-          <button>save</button>
+        <box width="100%" height={1} >
+          <text>No translation found for:</text>
+        </box>
+        <box width="100%" height={1} >
+          <text align="center">conversations.planning.addQuestion</text>
+        </box>
+        <box
+          width="100%"
+          height="100%-3"
+          class={stylesheet.bordered}
+        >
+          <textbox  ref="textbox" inputOnFocus/>
+        </box>
+        <box
+          width="50%"
+          height={1}
+          top="100%-1"
+        >
+          <button style={{bg:'blue'}}>Mark as identical</button>
+        </box>
+        <box
+          width="50%"
+          height={1}
+          left="50%"
+          top="100%-1"
+        >
+          <button style={{bg:'red'}}>Save</button>
+        </box>
       </layout>
         </box>
       </element>

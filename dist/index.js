@@ -25,6 +25,10 @@ const stylesheet = {
 }; // Rendering a simple centered box
 
 class App extends _react.Component {
+  componentDidMount() {
+    this.refs.textbox.focus();
+  }
+
   render() {
     return _react.default.createElement("element", null, _react.default.createElement("box", {
       label: "Default language",
@@ -49,9 +53,40 @@ class App extends _react.Component {
       class: stylesheet.bordered
     }, _react.default.createElement("layout", {
       width: "90%",
-      height: "90%",
-      layout: "grid"
-    }, _react.default.createElement("text", null, "Hello World!"), _react.default.createElement("button", null, "Mark as identical"), _react.default.createElement("button", null, "save"))));
+      height: "90%"
+    }, _react.default.createElement("box", {
+      width: "100%",
+      height: 1
+    }, _react.default.createElement("text", null, "No translation found for:")), _react.default.createElement("box", {
+      width: "100%",
+      height: 1
+    }, _react.default.createElement("text", {
+      align: "center"
+    }, "conversations.planning.addQuestion")), _react.default.createElement("box", {
+      width: "100%",
+      height: "100%-3",
+      class: stylesheet.bordered
+    }, _react.default.createElement("textbox", {
+      ref: "textbox",
+      inputOnFocus: true
+    })), _react.default.createElement("box", {
+      width: "50%",
+      height: 1,
+      top: "100%-1"
+    }, _react.default.createElement("button", {
+      style: {
+        bg: 'blue'
+      }
+    }, "Mark as identical")), _react.default.createElement("box", {
+      width: "50%",
+      height: 1,
+      left: "50%",
+      top: "100%-1"
+    }, _react.default.createElement("button", {
+      style: {
+        bg: 'red'
+      }
+    }, "Save")))));
   }
 
 } // Creating our screen
