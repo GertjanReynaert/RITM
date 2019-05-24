@@ -10,17 +10,17 @@
   "author": "Gertjan Reynaert",
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
-    "js-yaml": "^3.13.1",
-    "neo-blessed": "^0.2.0",
-    "react": "^16.8.6",
-    "react-blessed": "^0.6.0"
+    "@babel/polyfill": "7.4.4",
+    "@babel/preset-react": "7.0.0",
+    "js-yaml": "3.13.1",
+    "neo-blessed": "0.2.0",
+    "react": "16.8.6",
+    "react-blessed": "0.6.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4"
+    "@babel/cli": "7.4.4",
+    "@babel/core": "7.4.4",
+    "@babel/preset-env": "7.4.4"
   },
   "babel": {
     "presets": [
