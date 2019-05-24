@@ -1,0 +1,6 @@
+helloWorld: Hallo wereld
+dashboard:
+  title: dashboard
+  form:
+    firstName: Voornaam
+    lastName: Achternaam

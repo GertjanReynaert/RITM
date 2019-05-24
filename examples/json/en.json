@@ -1,0 +1,10 @@
+{
+  "helloWorld": "Hello world",
+  "dashboard": {
+    "title": "dashboard",
+    "form": {
+      "firstName":"First name",
+      "lastName":"Last name"
+    }
+  }
+}
