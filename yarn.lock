@@ -2444,10 +2444,10 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-blessed@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/react-blessed/-/react-blessed-0.6.0.tgz#c42bea78f3792f936b15f3684997a69e8e8055f7"
-  integrity sha512-CzWy6BdJiZfSK45zApon7el6BNa+YCAMZKMvgYMEzTFLI2KfbJCYo9O31UxyL2kv+sdoo8uge6t0n6sB0SQ5Ow==
+react-blessed@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/react-blessed/-/react-blessed-0.6.1.tgz#8c649bbf0e9d7c42f413b281d9789ecabc3db2a2"
+  integrity sha512-k1BPKGXLVEWb/xeMwwk3N9fCgKT+V4jknyGJ7Js773nfCIIuPK2RV0H0vVxqtdYlevIWc1B1ATxTOBY75EBMrw==
   dependencies:
     react "^16.8.0"
     react-reconciler "^0.20.4"
