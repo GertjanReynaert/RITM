@@ -2,12 +2,9 @@
   "name": "examples",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "manage:translations": "node manageTranslations.js"
   },
-  "author": "",
-  "license": "ISC",
   "RITM": {
     "fileType":"json",
     "baseLanguage": "en",
