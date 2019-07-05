@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { safeLoad } = require('js-yaml');
 
-const filePath = (defaultDirectory: string) => (
+export const filePath = (defaultDirectory: string) => (
   fileName: string | Array<string>
 ) =>
   Array.isArray(fileName)

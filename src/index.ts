@@ -1,7 +1,28 @@
 // #!/usr/bin/env node
 
-import { safeReadJson } from './fileReader';
+import { filePath, safeReadJson, safeReadYaml } from './fileReader';
 
-const RITMConfig = safeReadJson('./package.json').RITM;
+type RITMConfigShape = {
+  fileType: 'json' | 'yaml' | 'yml';
+  baseLanguage: string;
+  translatedLanguages: Array<string>;
+  translationsDirectory: string;
+};
 
-console.log(RITMConfig.translationsDirectory);
+const {
+  fileType,
+  baseLanguage,
+  translatedLanguages,
+  translationsDirectory
+}: RITMConfigShape = safeReadJson('./package.json').RITM;
+
+const baseLanguageFilePath = filePath(translationsDirectory)(
+  `${baseLanguage}.${fileType}`
+);
+const baseLanguageFile =
+  fileType === 'json'
+    ? safeReadJson(baseLanguageFilePath)
+    : safeReadYaml(baseLanguageFilePath);
+
+console.log(baseLanguageFilePath);
+console.log(baseLanguageFile);

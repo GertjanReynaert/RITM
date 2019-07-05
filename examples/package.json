@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "RITM": {
+    "fileType":"json",
+    "baseLanguage": "en",
+    "translatedLanguages": ["nl"],
     "translationsDirectory": "json"
   }
 }
