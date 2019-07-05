@@ -1,6 +1,13 @@
 // #!/usr/bin/env node
 
 import { filePath, safeReadJson, safeReadYaml } from './fileReader';
+import {
+  logTitle,
+  logSubtitle,
+  logSpacer,
+  logSuccess,
+  printKeys
+} from './printer';
 
 type RITMConfigShape = {
   fileType: 'json' | 'yaml' | 'yml';
@@ -26,3 +33,11 @@ const baseLanguageFile =
 
 console.log(baseLanguageFilePath);
 console.log(baseLanguageFile);
+
+const keys = Object.keys(baseLanguageFile);
+
+logTitle(baseLanguage);
+logSubtitle('test');
+logSpacer();
+logSuccess('success');
+printKeys({ keys, level: 'warning', truncate: 1 });

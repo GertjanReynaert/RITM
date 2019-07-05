@@ -6,5 +6,6 @@
       "firstName":"First name",
       "lastName":"Last name"
     }
-  }
+  },
+  "defaultError": "Something weird happened, please try again later"
 }
