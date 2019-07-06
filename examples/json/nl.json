@@ -1,7 +1,9 @@
 {
   "helloWorld": "Hallo wereld",
+  "intro":"Intro",
   "dashboard": {
     "title": "dashboard",
+    "description":"Description",
     "form": {
       "firstName":"Voornaam",
       "lastName":"Achternaam"

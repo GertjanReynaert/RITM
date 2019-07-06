@@ -9,6 +9,11 @@ import {
   printKeys
 } from './printer';
 import flatten from './flatten';
+import { cleanUnneededKeys } from './cleanUnneededKeys';
+
+export type TranslationsShape = {
+  [key: string]: string | TranslationsShape;
+};
 
 const getMissingKeys = (
   baseLanguage: { [key: string]: string },
@@ -71,7 +76,10 @@ let failCI = false;
       : safeReadYaml(languageFilePath);
   const translationsFlatMap = flatten(translations);
 
-  // printKeys({ keys, level: 'warning', truncate: 1 });
+  const { cleannedTranslations, keysRemoved } = cleanUnneededKeys(
+    baseLanguageFile,
+    translations
+  );
 
   logTitle(title);
 
@@ -79,17 +87,12 @@ let failCI = false;
   // UNNEEDED KEYS
   //=====================================
   logSubtitle('Unneeded keys');
-  const unneededKeys = getUnneededKeys(
-    baseLanguageFlatMap,
-    translationsFlatMap
-  );
-
-  if (unneededKeys.length) {
-    // Even for optional languages this can be done
-    failCI = true;
-    printKeys({ keys: unneededKeys, level: 'error' });
+  if (keysRemoved === 0) {
+    logSuccess('No unneeded keys found');
+  } else if (keysRemoved === 1) {
+    logSuccess('1 unneeded key removed');
   } else {
-    logSuccess('No unneeded keys');
+    logSuccess(`${keysRemoved} unneeded keys removed`);
   }
 
   logSpacer();
