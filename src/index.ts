@@ -8,34 +8,12 @@ import {
   logSuccess,
   printKeys
 } from './printer';
-import flatten from './flatten';
 import { cleanUnneededKeys } from './cleanUnneededKeys';
 import { addMissingKeys } from './addMissingKeys';
 
 export type TranslationsShape = {
   [key: string]: string | TranslationsShape;
 };
-
-const getMissingKeys = (
-  baseLanguage: { [key: string]: string },
-  translatedLanguage: { [key: string]: string }
-) =>
-  Object.keys(baseLanguage).filter(
-    key => translatedLanguage[key] === undefined
-  );
-
-const getUntranslatedKeys = (
-  baseLanguage: { [key: string]: string },
-  translatedLanguage: { [key: string]: string }
-) =>
-  Object.keys(baseLanguage).filter(
-    key => baseLanguage[key] === translatedLanguage[key]
-  );
-
-const getUnneededKeys = (
-  baseLanguage: { [key: string]: string },
-  translatedLanguage: { [key: string]: string }
-) => getMissingKeys(translatedLanguage, baseLanguage);
 
 type RITMConfigShape = {
   fileType: 'json' | 'yaml' | 'yml';
@@ -60,7 +38,6 @@ const baseLanguageFile =
   fileType === 'json'
     ? safeReadJson(baseLanguageFilePath)
     : safeReadYaml(baseLanguageFilePath);
-const baseLanguageFlatMap = flatten(baseLanguageFile);
 
 let failCI = false;
 
@@ -75,7 +52,6 @@ let failCI = false;
     fileType === 'json'
       ? safeReadJson(languageFilePath)
       : safeReadYaml(languageFilePath);
-  const translationsFlatMap = flatten(translations);
 
   const { cleannedTranslations, keysRemoved } = cleanUnneededKeys(
     baseLanguageFile,
@@ -98,21 +74,21 @@ let failCI = false;
 
   logSpacer();
 
-  const output = addMissingKeys(baseLanguageFile, translations);
-  console.log(output);
-
   //=====================================
   // MISSING KEYS
   //=====================================
-  logSubtitle('Missing keys');
-  const missingKeys = getMissingKeys(baseLanguageFlatMap, translationsFlatMap);
 
-  if (missingKeys.length) {
-    // Even for optional languages this can be done
-    failCI = true;
-    printKeys({ keys: missingKeys, level: 'error' });
-  } else {
+  const { cleanedTranslations, keysAdded } = addMissingKeys(
+    baseLanguageFile,
+    translations
+  );
+
+  if (keysAdded.length === 0) {
+    logSubtitle('Missing keys');
     logSuccess('No missing keys');
+  } else {
+    logSubtitle('Missing keys (auto-added)');
+    keysAdded.map(({ key }) => key).forEach(logSuccess);
   }
   logSpacer();
 });
