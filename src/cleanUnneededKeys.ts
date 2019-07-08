@@ -11,7 +11,6 @@ export const cleanUnneededKeys = (
       const value = translations[key];
 
       if (baseValue === undefined) {
-        // TODO: get correct number of keys by doing a deep count into value if value is an object
         return {
           ...acc,
           keysRemoved:
