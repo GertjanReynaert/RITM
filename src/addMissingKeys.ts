@@ -1,47 +1,59 @@
 import { TranslationsShape } from './index';
-// TODO: get rid of keysRemoved and collect added key value pairs
-import { getKeyCount } from './getKeyCount';
 
 export const addMissingKeys = (
   baseTranslations: TranslationsShape,
-  translations: TranslationsShape
-): { cleannedTranslations: TranslationsShape; keysRemoved: number } =>
+  translations: TranslationsShape,
+  keyPrefix: string = ''
+): {
+  cleanedTranslations: TranslationsShape;
+  keysAdded: Array<{ key: string; value: string }>;
+} =>
   Object.keys(baseTranslations).reduce(
-    (acc, key) => {
+    (
+      acc: {
+        cleanedTranslations: TranslationsShape;
+        keysAdded: Array<{ key: string; value: string }>;
+      },
+      key
+    ) => {
       const baseValue = baseTranslations[key];
       const value = translations[key];
 
       if (value === undefined) {
         return {
-          cleannedTranslations: {
-            ...acc.cleannedTranslations,
+          cleanedTranslations: {
+            ...acc.cleanedTranslations,
             [key]: baseValue
           },
-          keysRemoved:
-            acc.keysRemoved +
-            (typeof value === 'object' ? getKeyCount(value) : 1)
+          keysAdded: [
+            ...acc.keysAdded,
+            ...(typeof baseValue === 'object'
+              ? [{ key: `${keyPrefix}${key}`, value: '' }]
+              : [{ key: `${keyPrefix}${key}`, value: baseValue }])
+          ]
         };
       }
 
       if (typeof baseValue === 'object' && typeof value === 'object') {
-        const { cleannedTranslations, keysRemoved } = addMissingKeys(
+        const { cleanedTranslations, keysAdded } = addMissingKeys(
           baseValue,
-          value
+          value,
+          keyPrefix === '' ? `${key}.` : `${keyPrefix}${key}.`
         );
 
         return {
-          cleannedTranslations: {
-            ...acc.cleannedTranslations,
-            [key]: cleannedTranslations
+          cleanedTranslations: {
+            ...acc.cleanedTranslations,
+            [key]: cleanedTranslations
           },
-          keysRemoved: acc.keysRemoved + keysRemoved
+          keysAdded: [...acc.keysAdded, ...keysAdded]
         };
       }
 
       return {
         ...acc,
-        cleannedTranslations: { ...acc.cleannedTranslations, [key]: value }
+        cleanedTranslations: { ...acc.cleanedTranslations, [key]: value }
       };
     },
-    { cleannedTranslations: {}, keysRemoved: 0 }
+    { cleanedTranslations: {}, keysAdded: [] }
   );

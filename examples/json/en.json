@@ -4,7 +4,8 @@
     "title": "dashboard",
     "form": {
       "firstName":"First name",
-      "lastName":"Last name"
+      "lastName":"Last name",
+      "email":"email"
     }
   },
   "defaultError": "Something weird happened, please try again later"
