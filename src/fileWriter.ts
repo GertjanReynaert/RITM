@@ -6,11 +6,11 @@ import { filePath } from './filePath';
 import { TranslationsShape } from './index';
 
 const writeFile = (path: string, content: string) =>
-  fs.writeFileSync(path, `${content}\n`);
+  fs.writeFileSync(path, content);
 
 export const safeWriteJson = (path: string, content: Object) => {
   const contentString = JSON.stringify(content, null, 2);
-  writeFile(path, contentString);
+  writeFile(path, `${contentString}\n`);
 };
 
 export const safeWriteYaml = (path: string, content: TranslationsShape) => {
