@@ -4,12 +4,5 @@
   "description": "",
   "scripts": {
     "manage:translations": "node manageTranslations.js"
-  },
-  "RITM": {
-    "fileType":"json",
-    "baseLanguage": "en",
-    "translatedLanguages": ["nl"],
-    "optionalLanguages":["ja"],
-    "translationsDirectory": "json"
   }
 }
