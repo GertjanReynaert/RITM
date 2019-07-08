@@ -1,6 +1,7 @@
 // #!/usr/bin/env node
 
 import { filePath } from './filePath';
+import { createDirectory } from './createDirectory';
 import { safeReadJson, safeReadYaml } from './fileReader';
 import { safeWriteJson, safeWriteYaml } from './fileWriter';
 import {
@@ -12,6 +13,7 @@ import {
 } from './printer';
 import { cleanUnneededKeys } from './cleanUnneededKeys';
 import { addMissingKeys } from './addMissingKeys';
+import { detectUntranslatedKeys } from './detectUntranslatedKeys';
 
 export type TranslationsShape = {
   [key: string]: string | TranslationsShape;
@@ -37,21 +39,42 @@ const fileReader = fileType === 'json' ? safeReadJson : safeReadYaml;
 
 const fileWriter = fileType === 'json' ? safeWriteJson : safeWriteYaml;
 
-const baseLanguageFilePath = filePath(translationsDirectory)(
-  `${baseLanguage}.${fileType}`
-);
+const getFilePath = filePath(translationsDirectory);
+const baseLanguageFilePath = getFilePath(`${baseLanguage}.${fileType}`);
 const baseLanguageFile = fileReader(baseLanguageFilePath);
 
 let failCI = false;
+
+//=====================================
+// SETUP OF ARTIFACTS FILE STRUCTURE
+//=====================================
+const artifactsDirectory = '.translations_manager';
+const statusFilesDirectory = 'status_files';
+
+createDirectory(getFilePath(artifactsDirectory));
+createDirectory(getFilePath([artifactsDirectory, statusFilesDirectory]));
+
+//=====================================
+// RUN OVER ALL LANGUAGES
+//=====================================
 
 [...translatedLanguages, ...optionalLanguages].forEach(languageName => {
   const optionalLanguage = optionalLanguages.includes(languageName);
   const title = languageName.toUpperCase();
 
-  const languageFilePath = filePath(translationsDirectory)(
-    `${languageName}.${fileType}`
-  );
+  const languageFileName = `${languageName}.${fileType}`;
+  const languageFilePath = filePath(translationsDirectory)(languageFileName);
   const translations = fileReader(languageFilePath);
+
+  const statusFilePath = getFilePath([
+    artifactsDirectory,
+    statusFilesDirectory,
+    languageFileName
+  ]);
+  const statusFile = safeReadJson(statusFilePath) || {
+    approved: [],
+    pending: []
+  };
 
   const { cleannedTranslations, keysRemoved } = cleanUnneededKeys(
     baseLanguageFile,
@@ -92,7 +115,36 @@ let failCI = false;
   }
   logSpacer();
 
+  //=====================================
+  // UNTRANSLATED KEYS
+  //=====================================
+  logSubtitle('Untranslated keys');
+
+  const untranslatedKeys = detectUntranslatedKeys(
+    baseLanguageFile,
+    cleanedTranslations,
+    statusFile.approved
+  );
+
+  const draftStatusFile = { ...statusFile, pending: untranslatedKeys };
+
+  if (untranslatedKeys.length) {
+    if (optionalLanguage === false) {
+      failCI = true;
+    }
+
+    printKeys({
+      keys: untranslatedKeys,
+      level: optionalLanguage ? 'warning' : 'error',
+      truncate: 10
+    });
+  } else {
+    logSuccess('No untranslated keys');
+  }
+  logSpacer();
+
   fileWriter(languageFilePath, cleanedTranslations);
+  safeWriteJson(statusFilePath, draftStatusFile);
 });
 
 process.exit(failCI ? 1 : 0);
