@@ -22,9 +22,11 @@ export const logSubtitle = (subtitle: string) => {
   logSpacer();
 };
 
-export const logSuccess = (message: string) => {
-  log('✅ ', message);
-};
+export const logSuccess = (message: string) => log('✅ ', message);
+
+export const logWarning = (message: string) => log('⚠️ ', message);
+
+export const logError = (message: string) => log('🚫', message);
 
 export const printKeys = ({
   keys,
@@ -37,8 +39,9 @@ export const printKeys = ({
 }) => {
   const keysToPrint = truncate ? keys.slice(0, truncate) : keys;
   const sign = level === 'error' ? '🚫' : '⚠️ ';
+  const printer = level === 'error' ? logError : logWarning;
 
-  keysToPrint.forEach(key => log(sign, key));
+  keysToPrint.forEach(key => printer(key));
 
   const amountOfExtraKeys = keys.length - keysToPrint.length;
 
@@ -46,6 +49,6 @@ export const printKeys = ({
     logSpacer();
 
     const keyString = amountOfExtraKeys === 1 ? 'key' : 'keys';
-    log(sign, `${amountOfExtraKeys} extra ${keyString} found`);
+    printer(`${amountOfExtraKeys} extra ${keyString} found`);
   }
 };
