@@ -120,13 +120,16 @@ createDirectory(getFilePath([artifactsDirectory, statusFilesDirectory]));
   //=====================================
   logSubtitle('Untranslated keys');
 
-  const untranslatedKeys = detectUntranslatedKeys(
+  const { untranslatedKeys, cleanedIgnoreKeysList } = detectUntranslatedKeys(
     baseLanguageFile,
     cleanedTranslations,
     statusFile.approved
   );
 
-  const draftStatusFile = { ...statusFile, pending: untranslatedKeys };
+  const draftStatusFile = {
+    approved: cleanedIgnoreKeysList,
+    pending: untranslatedKeys
+  };
 
   if (untranslatedKeys.length) {
     if (optionalLanguage === false) {

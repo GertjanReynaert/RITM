@@ -8,7 +8,7 @@ import { TranslationsShape } from './index';
 const writeFile = (path: string, content: string) =>
   fs.writeFileSync(path, `${content}\n`);
 
-export const safeWriteJson = (path: string, content: TranslationsShape) => {
+export const safeWriteJson = (path: string, content: Object) => {
   const contentString = JSON.stringify(content, null, 2);
   writeFile(path, contentString);
 };
