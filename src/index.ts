@@ -1,6 +1,8 @@
 // #!/usr/bin/env node
 
-import { filePath, safeReadJson, safeReadYaml } from './fileReader';
+import { filePath } from './filePath';
+import { safeReadJson, safeReadYaml } from './fileReader';
+import { safeWriteJson, safeWriteYaml } from './fileWriter';
 import {
   logTitle,
   logSubtitle,
@@ -31,13 +33,14 @@ const {
   translationsDirectory
 }: RITMConfigShape = safeReadJson('./package.json').RITM;
 
+const fileReader = fileType === 'json' ? safeReadJson : safeReadYaml;
+
+const fileWriter = fileType === 'json' ? safeWriteJson : safeWriteYaml;
+
 const baseLanguageFilePath = filePath(translationsDirectory)(
   `${baseLanguage}.${fileType}`
 );
-const baseLanguageFile =
-  fileType === 'json'
-    ? safeReadJson(baseLanguageFilePath)
-    : safeReadYaml(baseLanguageFilePath);
+const baseLanguageFile = fileReader(baseLanguageFilePath);
 
 let failCI = false;
 
@@ -48,10 +51,7 @@ let failCI = false;
   const languageFilePath = filePath(translationsDirectory)(
     `${languageName}.${fileType}`
   );
-  const translations =
-    fileType === 'json'
-      ? safeReadJson(languageFilePath)
-      : safeReadYaml(languageFilePath);
+  const translations = fileReader(languageFilePath);
 
   const { cleannedTranslations, keysRemoved } = cleanUnneededKeys(
     baseLanguageFile,
@@ -91,6 +91,8 @@ let failCI = false;
     keysAdded.map(({ key }) => key).forEach(logSuccess);
   }
   logSpacer();
+
+  fileWriter(languageFilePath, cleanedTranslations);
 });
 
 process.exit(failCI ? 1 : 0);

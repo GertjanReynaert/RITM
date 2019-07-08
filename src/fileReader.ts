@@ -1,13 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { safeLoad } = require('js-yaml');
-
-export const filePath = (defaultDirectory: string) => (
-  fileName: string | Array<string>
-) =>
-  Array.isArray(fileName)
-    ? path.join(defaultDirectory, ...fileName)
-    : path.join(defaultDirectory, fileName);
+import fs from 'fs';
+import { safeLoad } from 'js-yaml';
+import { filePath } from './filePath';
 
 export const safeReadJson = (path: string) => {
   try {
@@ -24,12 +17,3 @@ export const safeReadYaml = (path: string) => {
     return undefined;
   }
 };
-
-// const config = {
-//   translationLanguagesDirectory: 'examples'
-// };
-
-// const examplesPath = filePath(config.translationLanguagesDirectory);
-
-// console.log(safeReadJson(examplesPath(['json', 'en.json'])));
-// console.log(safeReadYaml(examplesPath(['yaml', 'en.yaml'])));
