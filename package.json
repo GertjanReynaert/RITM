@@ -1,7 +1,26 @@
 {
-  "name": "RITM",
   "version": "0.0.1",
+  "license": "MIT",
+  "name": "RITM",
   "description": "React Interactive Translations Manager",
+  "author": "Gertjan Reynaert",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GertjanReynaert/RITM.git"
+  },
+  "homepage": "https://github.com/GertjanReynaert/RITM#readme",
+  "files":["dist"],
+  "keywords": [
+    "intl",
+    "translations",
+    "manager",
+    "management",
+    "managing",
+    "i18n",
+    "json",
+    "yaml",
+    "yml"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "format": "prettier --write --config .prettierrc '*.js' 'src/**/*.js' '*.ts' 'src/**/*.ts'",
@@ -10,8 +29,6 @@
     "type-check:watch": "yarn type-check -- --watch",
     "build": "tsc"
   },
-  "author": "Gertjan Reynaert",
-  "license": "MIT",
   "dependencies": {
     "js-yaml": "3.13.1"
   },
