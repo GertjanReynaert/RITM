@@ -10,6 +10,7 @@ import {
 } from './printer';
 import flatten from './flatten';
 import { cleanUnneededKeys } from './cleanUnneededKeys';
+import { addMissingKeys } from './addMissingKeys';
 
 export type TranslationsShape = {
   [key: string]: string | TranslationsShape;
@@ -96,6 +97,9 @@ let failCI = false;
   }
 
   logSpacer();
+
+  const output = addMissingKeys(baseLanguageFile, translations);
+  console.log(output);
 
   //=====================================
   // MISSING KEYS
